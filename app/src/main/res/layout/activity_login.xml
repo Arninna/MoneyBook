@@ -55,7 +55,7 @@
             </Button>
 
             <TextView
-                android:id="@+id/forget_password"
+                android:id="@+id/forgotPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -64,7 +64,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/signup_reg"
+                android:id="@+id/goToRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

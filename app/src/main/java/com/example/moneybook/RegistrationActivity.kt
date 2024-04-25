@@ -41,6 +41,7 @@ class RegistrationActivity : AppCompatActivity() {
         val email = binding.emailRegister.text.toString().trim()
         val password = binding.passwordRegister.text.toString().trim()
         if(email.isNotEmpty() && password.isNotEmpty()){
+
             firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
                 if(it.isSuccessful){
                     val intent = Intent(this,LoginActivity::class.java)
@@ -49,6 +50,6 @@ class RegistrationActivity : AppCompatActivity() {
                     Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()
             }
         }else
-            Toast.makeText(this,"Tutti i campi devono essere completi",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Compila tutti i campi",Toast.LENGTH_LONG).show()
     }
 }
