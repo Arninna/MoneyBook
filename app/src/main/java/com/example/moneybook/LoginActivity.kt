@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var forgotPwd :TextView
     private lateinit var signupTextview:TextView*/
 
-    @SuppressLint("MissingInflatedId")
+    //@SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -65,6 +65,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    // per test: mail account gioco, password: prova1234
     fun login(){
         val email = binding.emailLogin.text.toString().trim()
         val password = binding.passwordLogin.text.toString().trim()
@@ -83,10 +84,10 @@ class LoginActivity : AppCompatActivity() {
     private fun compareEmail(email: EditText){
         if(email.text.toString().isEmpty())
             return
-        if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()){
+        if(!Patterns.EMAIL_ADDRESS.matcher(email.text.toString().trim()).matches()){
             return
         }
-        firebaseAuth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener{task ->
+        firebaseAuth.sendPasswordResetEmail(email.text.toString().trim()).addOnCompleteListener{task ->
             if(task.isSuccessful)
                 Toast.makeText(this,"Controlla le tue email",Toast.LENGTH_LONG).show()
         }
