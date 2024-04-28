@@ -11,17 +11,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/appbar">
 
-        <Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/my_toolbar"
             android:background="@color/toolbar_color"
             app:titleTextColor="@color/white">
-        </Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/main_content"/>
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
