@@ -23,6 +23,7 @@
         android:fitsSystemWindows="true"
         app:itemTextAppearance="?android:textAppearanceSmall"
         app:itemIconTint="@color/toolbar_color"
+        app:itemTextColor="@color/nav_header"
         app:menu="@menu/navmenu"
         app:headerLayout="@layout/nav_header">
     </com.google.android.material.navigation.NavigationView>
