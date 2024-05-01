@@ -33,6 +33,7 @@ class LoginActivity : AppCompatActivity() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
+        //login solo la prima volta dal download dell'app, le successive si accede già alla home
         if(firebaseAuth.currentUser != null){
             val intent = Intent(this,HomeActivity::class.java)
             startActivity(intent)
