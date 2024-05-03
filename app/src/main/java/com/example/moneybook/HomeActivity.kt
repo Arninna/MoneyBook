@@ -32,7 +32,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
+        toolbar.setTitle("Expense Manager")
+        setSupportActionBar(toolbar)
+
+        //bottomNavView = findViewById(R.id.bottomNavigationBar)
+        //frameLayout = findViewById(R.id.mainFrame)
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val toggle: ActionBarDrawerToggle = ActionBarDrawerToggle(this,drawerLayout,
             toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
@@ -52,27 +58,25 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         bottomNavView = findViewById(R.id.bottomNavigationBar)
         frameLayout = findViewById(R.id.mainFrame)
-        bottomNavView?.setOnNavigationItemReselectedListener { menuItem ->
-            bottomNavView?.let { navView ->
+        bottomNavView.setOnNavigationItemSelectedListener { menuItem ->
                 when(menuItem.itemId){
                     R.id.dashboard -> {
                         setFragment(dashBoardFragment)
-                        navView.setBackgroundResource(R.color.dashboard_color)
+                        bottomNavView.setBackgroundResource(R.color.dashboard_color)
                         true
                     }
                     R.id.income -> {
                         setFragment(incomeFragment)
-                        navView.setBackgroundResource(R.color.income_color)
+                        bottomNavView.setBackgroundResource(R.color.income_color)
                         true
                     }
                     R.id.expense -> {
                         setFragment(expenseFragment)
-                        navView.setBackgroundResource(R.color.expense_color)
+                        bottomNavView.setBackgroundResource(R.color.expense_color)
                         true
                     }
                     else -> false
                 }
-            }
         }
     }
 
