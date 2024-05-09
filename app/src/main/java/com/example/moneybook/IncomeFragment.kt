@@ -182,6 +182,7 @@ class IncomeFragment : Fragment() {
         btnDelete = myView.findViewById(R.id.btnUpdDelete)
         val dialog: AlertDialog = myDialog.create()
 
+        //al click, salvataggio dati modificati su firebase
         btnUpdate.setOnClickListener {
             type = edtType.text.toString().trim()
             note = edtNote.text.toString().trim()
