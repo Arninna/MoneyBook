@@ -16,8 +16,11 @@ import com.example.moneybook.Model.Data
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.text.DateFormat
 import java.util.Date
 
@@ -37,6 +40,10 @@ class DashboardFragment : Fragment() {
     //Animation
     private lateinit var fadeOpen: Animation
     private lateinit var fadeClose: Animation
+
+    //Aggiornamento risultato totale dashboard entrate/uscite
+    private lateinit var totalIncomeResult: TextView
+    private lateinit var totalExpenseResult: TextView
 
     //Firebase
     private lateinit var firebaseAuth: FirebaseAuth
@@ -67,6 +74,10 @@ class DashboardFragment : Fragment() {
         fab_income_text = myView.findViewById(R.id.income_ft_text)
         fab_expense_text = myView.findViewById(R.id.expense_ft_text)
 
+        //connessione TextView totale income/expense
+        totalIncomeResult = myView.findViewById(R.id.income_set_result)
+        totalExpenseResult = myView.findViewById(R.id.expense_set_result)
+
         //Connessione Animation con layout
         fadeOpen = AnimationUtils.loadAnimation(activity,R.anim.fade_open)
         fadeClose = AnimationUtils.loadAnimation(activity,R.anim.fade_close)
@@ -77,6 +88,25 @@ class DashboardFragment : Fragment() {
 
             floatingButtonAnimation()
         }
+
+        //Calcolo totale Entrate
+        incomeDatabase.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var sommaTotaleEntrate = 0
+                for (mySnapshot in dataSnapshot.children){
+                    val data = mySnapshot.getValue(Data::class.java)
+                    sommaTotaleEntrate+=data?.amount?:0
+                }
+                val strSommaTot = sommaTotaleEntrate.toString()
+                totalIncomeResult.text = strSommaTot
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
 
         return myView
     }
