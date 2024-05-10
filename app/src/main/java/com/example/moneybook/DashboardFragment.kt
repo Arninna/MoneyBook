@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.moneybook.Model.Data
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -50,6 +52,10 @@ class DashboardFragment : Fragment() {
     private lateinit var incomeDatabase: DatabaseReference
     private lateinit var expenseDatabase: DatabaseReference
 
+    //Recycler View Income/Expense Dashboard
+    private lateinit var recyclerIncome: RecyclerView
+    private lateinit var recyclerExpense: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -81,6 +87,10 @@ class DashboardFragment : Fragment() {
         //Connessione Animation con layout
         fadeOpen = AnimationUtils.loadAnimation(activity,R.anim.fade_open)
         fadeClose = AnimationUtils.loadAnimation(activity,R.anim.fade_close)
+
+        //Connessione delle recycler view
+        recyclerIncome = myView.findViewById(R.id.recycler_income)
+        recyclerExpense = myView.findViewById(R.id.recycler_expense)
 
         fab_main_btn.setOnClickListener {
 
@@ -125,6 +135,19 @@ class DashboardFragment : Fragment() {
             }
 
         })
+
+        //Inizializzazione RecyclerView
+        var layoutManagerIncome = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        layoutManagerIncome.stackFromEnd = true
+        layoutManagerIncome.reverseLayout = true
+        recyclerIncome.setHasFixedSize(true)
+        recyclerIncome.layoutManager = layoutManagerIncome
+
+        var layoutManagerExpense = LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        layoutManagerExpense.stackFromEnd = true
+        layoutManagerExpense.reverseLayout = true
+        recyclerExpense.setHasFixedSize(true)
+        recyclerExpense.layoutManager = layoutManagerExpense
 
         return myView
     }
