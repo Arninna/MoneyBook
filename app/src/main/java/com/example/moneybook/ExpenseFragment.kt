@@ -84,7 +84,7 @@ class ExpenseFragment : Fragment() {
                     totalValue+=data?.amount?: 0 //se c'è un valore lo aggiunge, altrimenti 0
                 }
                 val stringTotalValue = totalValue.toString()
-                expenseTotalAmount.text = stringTotalValue
+                expenseTotalAmount.text = "$stringTotalValue.00"
             }
 
             override fun onCancelled(error: DatabaseError) {

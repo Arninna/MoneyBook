@@ -98,8 +98,26 @@ class DashboardFragment : Fragment() {
                     sommaTotaleEntrate+=data?.amount?:0
                 }
                 val strSommaTot = sommaTotaleEntrate.toString()
-                totalIncomeResult.text = strSommaTot
+                totalIncomeResult.text = "$strSommaTot.00"
 
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        //Calcolo delle Uscite
+        expenseDatabase.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var sommaTotaleUscite = 0
+                for (mySnapshot in dataSnapshot.children){
+                    val data = mySnapshot.getValue(Data::class.java)
+                    sommaTotaleUscite+=data?.amount?:0
+                }
+                val strSommaTot = sommaTotaleUscite.toString()
+                totalExpenseResult.text = "$strSommaTot.00"
             }
 
             override fun onCancelled(error: DatabaseError) {
