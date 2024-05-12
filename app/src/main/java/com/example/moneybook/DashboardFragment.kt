@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moneybook.Model.Data
+import com.firebase.ui.database.FirebaseRecyclerAdapter
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -150,6 +152,53 @@ class DashboardFragment : Fragment() {
         recyclerExpense.layoutManager = layoutManagerExpense
 
         return myView
+    }
+
+    //Caricamento delle entrate Uscite nelle recyclerView al load del DashboardFragment
+
+    override fun onStart() {
+        super.onStart()
+
+        val options: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+            .setQuery(incomeDatabase, Data::class.java)
+            .build()
+
+        val incomeAdapter = object: FirebaseRecyclerAdapter<Data,IncomeViewHolder>(options) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeViewHolder {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboarad_income, parent,false)
+                return IncomeViewHolder(view)
+            }
+
+            override fun onBindViewHolder(viewHolder: IncomeViewHolder, position: Int, model: Data) {
+                viewHolder.setIncomeType(model.type)
+                viewHolder.setIncomeAmount(model.amount)
+                viewHolder.setIncomeDate(model.date)
+            }
+        }
+
+        recyclerIncome.adapter = incomeAdapter
+        incomeAdapter.startListening()
+
+    }
+
+    inner class IncomeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        var myIncomeView: View = itemView
+
+        fun setIncomeType(type: String){
+            var mType: TextView = myIncomeView.findViewById(R.id.type_income_ds)
+            mType.text = type
+        }
+
+        fun setIncomeAmount(amount: Int){
+            var mAmount: TextView = myIncomeView.findViewById(R.id.amount_income_ds)
+            var strAmount = amount.toString()
+            mAmount.text = strAmount
+        }
+
+        fun setIncomeDate(date: String){
+            var mDate: TextView = myIncomeView.findViewById(R.id.date_income_ds)
+            mDate.text = date
+        }
     }
 
     //Floating button animation
