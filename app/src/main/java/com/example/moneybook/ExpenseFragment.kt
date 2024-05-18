@@ -22,7 +22,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class ExpenseFragment : Fragment() {
 
@@ -185,7 +187,8 @@ class ExpenseFragment : Fragment() {
             var strAmountModified = amount.toString()
             strAmountModified = edtAmount.text.toString().trim()
             var myAmount = strAmountModified.toInt()
-            val mDate: String = DateFormat.getDateInstance().format(Date())
+            val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+            val mDate: String = dateFormat.format(Date())
             val data =  Data(myAmount,type,note,postKey,mDate)
 
             //modifica sul database
