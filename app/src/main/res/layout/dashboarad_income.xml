@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="Tipologia"
             android:gravity="center"
-            android:textColor="@color/nav_header"
+            android:textColor="@color/black"
             android:id="@+id/type_income_ds"
             android:textAppearance="?android:textAppearanceLarge">
         </TextView>
@@ -43,7 +43,7 @@
             android:textAppearance="?android:textAppearanceMedium"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:textColor="@color/income_color"
+            android:textColor="@color/black"
             android:id="@+id/date_income_ds">
         </TextView>
 

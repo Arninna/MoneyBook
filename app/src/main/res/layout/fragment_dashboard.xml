@@ -33,7 +33,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
+                        android:textColor="@color/income_color"
                         android:text="Entrate">
                     </TextView>
                 </RelativeLayout>
@@ -48,7 +48,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@android:color/holo_red_dark"
+                        android:textColor="@color/expense_color"
                         android:text="Uscite">
                     </TextView>
                 </RelativeLayout>
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@color/black"
+                        android:textColor="@color/income_color"
                         android:text="000.00">
                     </TextView>
                 </RelativeLayout>
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:textAppearanceLarge"
-                        android:textColor="@android:color/holo_red_dark"
+                        android:textColor="@color/expense_color"
                         android:text="000.00">
                     </TextView>
                 </RelativeLayout>
@@ -169,7 +169,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/expense_ft_btn"
                 android:layout_gravity="bottom|end"
-                android:backgroundTint="#07bca4"
+                android:backgroundTint="@color/expense_color"
                 android:elevation="6dp"
                 app:fabSize="mini"
                 android:visibility="invisible"
@@ -206,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/income_ft_btn"
                 android:layout_gravity="bottom|end"
-                android:backgroundTint="#1ce10a"
+                android:backgroundTint="@color/income_color"
                 android:elevation="6dp"
                 app:fabSize="mini"
                 app:pressedTranslationZ="12dp"
@@ -218,16 +218,15 @@
 
         <!-- Grande floating button per visualizzare i due piccoli button -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fb_main_plus_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/fb_main_plus_btn"
             android:layout_gravity="bottom|end"
-            android:layout_marginBottom="16dp"
             android:layout_marginRight="20dp"
-            android:backgroundTint="#6A1B9A"
-            app:fabSize="normal"
-            android:src="@drawable/baseline_add_24">
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/nav_header"
+            android:src="@drawable/baseline_add_24"
+            app:fabSize="normal"></com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

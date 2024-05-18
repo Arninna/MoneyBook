@@ -74,7 +74,7 @@
                 android:textAppearance="?android:textAppearanceSmall"
                 android:textStyle="bold"
                 android:id="@+id/amount_text_income"
-                android:textColor="@color/black">
+                android:textColor="@color/income_color">
             </TextView>
 
         </RelativeLayout>
