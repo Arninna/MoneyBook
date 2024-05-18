@@ -159,11 +159,11 @@ class DashboardFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val options: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+        val optionsIn: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
             .setQuery(incomeDatabase, Data::class.java)
             .build()
 
-        val incomeAdapter = object: FirebaseRecyclerAdapter<Data,IncomeViewHolder>(options) {
+        val incomeAdapter = object: FirebaseRecyclerAdapter<Data,IncomeViewHolder>(optionsIn) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeViewHolder {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboarad_income, parent,false)
                 return IncomeViewHolder(view)
@@ -178,6 +178,25 @@ class DashboardFragment : Fragment() {
 
         recyclerIncome.adapter = incomeAdapter
         incomeAdapter.startListening()
+
+        val optionsOut: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+            .setQuery(expenseDatabase, Data::class.java)
+            .build()
+
+        val expenseAdapter = object: FirebaseRecyclerAdapter<Data,ExpenseViewHolder>(optionsOut){
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboard_expense,parent,false)
+                return ExpenseViewHolder(view)
+            }
+
+            override fun onBindViewHolder(viewHolder: ExpenseViewHolder, position: Int, model: Data) {
+                viewHolder.setExpenseType(model.type)
+                viewHolder.setExpenseAmount(model.amount)
+                viewHolder.setExpenseDate(model.date)
+            }
+        }
+        recyclerExpense.adapter = expenseAdapter
+        expenseAdapter.startListening()
 
     }
 
@@ -197,6 +216,26 @@ class DashboardFragment : Fragment() {
 
         fun setIncomeDate(date: String){
             var mDate: TextView = myIncomeView.findViewById(R.id.date_income_ds)
+            mDate.text = date
+        }
+    }
+
+    inner class ExpenseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        var myExpenseView: View = itemView
+
+        fun setExpenseType(type: String){
+            var mType: TextView = myExpenseView.findViewById(R.id.type_expense_ds)
+            mType.text = type
+        }
+
+        fun setExpenseAmount(amount: Int){
+            var mAmount: TextView = myExpenseView.findViewById(R.id.amount_expense_ds)
+            var strAmount = amount.toString()
+            mAmount.text = strAmount
+        }
+
+        fun setExpenseDate(date: String){
+            var mDate: TextView = myExpenseView.findViewById(R.id.date_expense_ds)
             mDate.text = date
         }
     }

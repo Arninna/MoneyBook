@@ -1,6 +1,7 @@
 package com.example.moneybook
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -14,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.example.moneybook.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
 
@@ -27,6 +29,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var incomeFragment: IncomeFragment
     private lateinit var expenseFragment: ExpenseFragment
 
+    //Firebase per logout
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -36,6 +41,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
         toolbar.setTitle("Expense Manager")
         setSupportActionBar(toolbar)
+
+        //Prendo sessione attiva dell'utente loggato
+        firebaseAuth=FirebaseAuth.getInstance()
 
         //bottomNavView = findViewById(R.id.bottomNavigationBar)
         //frameLayout = findViewById(R.id.mainFrame)
@@ -109,6 +117,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.expense ->{
                 fragment = ExpenseFragment()
+            }
+            R.id.logout ->{
+                firebaseAuth.signOut()
+                val intent = Intent(this,LoginActivity::class.java)
+                startActivity(intent)
             }
         }
         if(fragment != null){
