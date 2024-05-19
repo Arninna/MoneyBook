@@ -118,6 +118,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.expense ->{
                 fragment = ExpenseFragment()
             }
+            R.id.statistics->{
+                fragment = StatisticFragment()
+            }
             R.id.logout ->{
                 firebaseAuth.signOut()
                 val intent = Intent(this,LoginActivity::class.java)

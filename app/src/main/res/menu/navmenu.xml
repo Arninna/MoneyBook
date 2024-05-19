@@ -13,6 +13,10 @@
         android:title="Uscite"
         android:icon="@drawable/baseline_remove_24">
     </item>
+    <item android:id="@+id/statistics"
+        android:title="Statistiche"
+        android:icon="@drawable/baseline_bar_chart_24">
+    </item>
     <item android:id="@+id/logout"
         android:title="Disconnetti"
         android:icon="@drawable/baseline_close_24">
