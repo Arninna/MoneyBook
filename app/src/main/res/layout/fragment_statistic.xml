@@ -195,12 +195,12 @@
                 android:orientation="vertical"
                 android:layout_marginTop="10dp">
                 <TextView
-                    android:id="@+id/filter_string"
+                    android:id="@+id/filterRemove_string"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black"
                     android:textAppearance="?android:textAppearanceSmall"
-                    android:text="Filtro per.....">
+                    android:text="Clicca qui per rimuovere i filtri">
                 </TextView>
                 <TextView
                     android:layout_width="match_parent"
