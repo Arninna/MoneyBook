@@ -47,7 +47,7 @@ class RegistrationActivity : AppCompatActivity() {
                     val intent = Intent(this,LoginActivity::class.java)
                     startActivity(intent)
                 }else
-                    Toast.makeText(this,it.exception.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Credenziali non valide", Toast.LENGTH_SHORT).show()
             }
         }else
             Toast.makeText(this,"Compila tutti i campi",Toast.LENGTH_LONG).show()
