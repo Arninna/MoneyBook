@@ -26,7 +26,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 class DashboardFragment : Fragment() {
 
@@ -319,7 +323,11 @@ class DashboardFragment : Fragment() {
             //codice per aggiungere al db una Entrata
             val id: String = incomeDatabase.push().key!!
             val date: String = DateFormat.getDateInstance().format(Date())
-            val data = Data(ourAmountInt,type,note,id, date)
+            val calendar = Calendar.getInstance()
+            val year: String = calendar.get(Calendar.YEAR).toString()
+            val monthFormat = SimpleDateFormat("MMMM", Locale("it","IT"))
+            val month: String = monthFormat.format(calendar.time)
+            val data = Data(ourAmountInt,type,note,id, date,year,month)
             incomeDatabase.child(id).setValue(data)
             Toast.makeText(activity,"Dati inseriti",Toast.LENGTH_SHORT).show()
 
@@ -373,7 +381,11 @@ class DashboardFragment : Fragment() {
             //codice per aggiungere al db una Uscita
             val id: String = incomeDatabase.push().key!!
             val date: String = DateFormat.getDateInstance().format(Date())
-            val data = Data(inAmountInt,type,note,id, date)
+            val calendar = Calendar.getInstance()
+            val year: String = calendar.get(Calendar.YEAR).toString()
+            val monthFormat = SimpleDateFormat("MMMM", Locale("it","IT"))
+            val month: String = monthFormat.format(calendar.time)
+            val data = Data(inAmountInt, type, note, id, date, year, month)
             expenseDatabase.child(id).setValue(data)
             Toast.makeText(activity,"Dati inseriti",Toast.LENGTH_SHORT).show()
 

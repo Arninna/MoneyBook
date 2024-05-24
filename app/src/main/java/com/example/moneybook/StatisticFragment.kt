@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -86,10 +87,40 @@ class StatisticFragment : Fragment() {
         calcolaUscite()
 
         btn_mese.setOnClickListener {
-            onStart()
+            // Mostra un dialogo di input per ottenere il mese dall'utente
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Inserisci il mese")
+
+            val input = EditText(requireContext())
+            input.inputType = InputType.TYPE_CLASS_TEXT
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { dialog, which ->
+                val mese = input.text.toString().trim()
+                filtraPerMese(mese)
+            }
+            builder.setNegativeButton("Annulla") { dialog, which ->
+                dialog.cancel()
+            }
+            builder.show()
         }
         btn_anno.setOnClickListener {
-            onStart()
+            // Mostra un dialogo di input per ottenere l'anno dall'utente
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Inserisci l'anno")
+
+            val input = EditText(requireContext())
+            input.inputType = InputType.TYPE_CLASS_NUMBER
+            builder.setView(input)
+
+            builder.setPositiveButton("OK") { dialog, which ->
+                val anno = input.text.toString().trim()
+                filtraPerAnno(anno)
+            }
+            builder.setNegativeButton("Annulla") { dialog, which ->
+                dialog.cancel()
+            }
+            builder.show()
         }
         btn_tipologia.setOnClickListener {
             // Mostra un dialogo di input per ottenere la tipologia dall'utente
@@ -116,16 +147,25 @@ class StatisticFragment : Fragment() {
 
         return myView
     }
-    private fun filtraPerMese() {
-        TODO("Not yet implemented")
+    private fun filtraPerMese(mese: String) {
+        val filterMeseIncomeQuery = incomeDatabase.orderByChild("mese").equalTo(mese)
+        val filterMeseExpenseQuery = expenseDatabase.orderByChild("mese").equalTo(mese)
+        filtroPerSelezione(filterMeseIncomeQuery)
+        filtroPerSelezione(filterMeseExpenseQuery)
+
     }
-    private fun filtraPerAnno() {
+    private fun filtraPerAnno(anno: String) {
+        val filterAnnoIncomeQuery = incomeDatabase.orderByChild("anno").equalTo(anno)
+        val filterAnnoExpenseQuery = expenseDatabase.orderByChild("anno").equalTo(anno)
+        filtroPerSelezione(filterAnnoIncomeQuery)
+        filtroPerSelezione(filterAnnoExpenseQuery)
     }
 
     private fun filtraPerTipologia(tipologia: String) {
         val filteredIncomeQuery = incomeDatabase.orderByChild("type").equalTo(tipologia)
-        //val filteredExpenseQuery = expenseDatabase.orderByChild("type").equalTo(tipologia)
+        val filteredExpenseQuery = expenseDatabase.orderByChild("type").equalTo(tipologia)
 
+        //codice per filter su entrate
         val optionsIn: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
             .setQuery(filteredIncomeQuery, Data::class.java)
             .build()
@@ -143,6 +183,25 @@ class StatisticFragment : Fragment() {
         }
         recyclerIncome.adapter = incomeAdapter
         incomeAdapter.startListening()
+
+        //codice per filter su uscite
+        val optionsOut: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+            .setQuery(filteredExpenseQuery, Data::class.java)
+            .build()
+        val expenseAdapter = object : FirebaseRecyclerAdapter<Data, ExpenseViewHolder>(optionsOut){
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboard_expense,parent, false)
+                return  ExpenseViewHolder(view)
+            }
+
+            override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int, model: Data) {
+                holder.setExpenseType(model.type)
+                holder.setExpenseAmount(model.amount)
+                holder.setExpenseDate(model.date)
+            }
+        }
+        recyclerExpense.adapter = expenseAdapter
+        expenseAdapter.startListening()
     }
 
 
@@ -222,6 +281,44 @@ class StatisticFragment : Fragment() {
                 TODO("Not yet implemented")
             }
         })
+    }
+
+    fun filtroPerSelezione(queryConFiltro: Query){
+        val optionsIn: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+            .setQuery(queryConFiltro, Data::class.java)
+            .build()
+        val incomeAdapter = object : FirebaseRecyclerAdapter<Data, IncomeViewHolder>(optionsIn){
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IncomeViewHolder {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboarad_income,parent,false)
+                return IncomeViewHolder(view)
+            }
+
+            override fun onBindViewHolder(holder: IncomeViewHolder, position: Int, model: Data) {
+                holder.setIncomeType(model.type)
+                holder.setIncomeAmount(model.amount)
+                holder.setIncomeDate(model.date)
+            }
+        }
+        recyclerIncome.adapter = incomeAdapter
+        incomeAdapter.startListening()
+        //codice filter anno uscite
+        val optionsOut: FirebaseRecyclerOptions<Data> = FirebaseRecyclerOptions.Builder<Data>()
+            .setQuery(queryConFiltro, Data::class.java)
+            .build()
+        val expenseAdapter = object : FirebaseRecyclerAdapter<Data, ExpenseViewHolder>(optionsOut){
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseViewHolder {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.dashboard_expense,parent,false)
+                return ExpenseViewHolder(view)
+            }
+
+            override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int, model: Data) {
+                holder.setExpenseType(model.type)
+                holder.setExpenseAmount(model.amount)
+                holder.setExpenseDate(model.date)
+            }
+        }
+        recyclerExpense.adapter = expenseAdapter
+        expenseAdapter.startListening()
     }
 
     inner class IncomeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

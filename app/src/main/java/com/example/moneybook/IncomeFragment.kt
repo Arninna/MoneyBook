@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -193,7 +194,11 @@ class IncomeFragment : Fragment() {
             var myAmount = strAmountModified.toInt()
             val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
             val mDate: String = dateFormat.format(Date())
-            val data =  Data(myAmount,type,note,postKey,mDate)
+            val calendar = Calendar.getInstance()
+            val year: String = calendar.get(Calendar.YEAR).toString()
+            val monthFormat = SimpleDateFormat("MMMM", Locale("it","IT"))
+            val month: String = monthFormat.format(calendar.time)
+            val data =  Data(myAmount,type,note,postKey,mDate,year,month)
 
             //modifica sul database
             incomeDatabase.child(postKey).setValue(data)
