@@ -44,7 +44,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/amount_edittext"
-                        android:hint="inserire quantità">
+                        android:hint="inserire quantità"
+                        android:inputType="number">
                     </EditText>
                     
                 </RelativeLayout>

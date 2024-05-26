@@ -143,6 +143,8 @@ class StatisticFragment : Fragment() {
 
         removeFilter.setOnClickListener {
             onStart()
+            calcolaEntrate()
+            calcolaUscite()
         }
 
         return myView
@@ -152,6 +154,8 @@ class StatisticFragment : Fragment() {
         val filterMeseExpenseQuery = expenseDatabase.orderByChild("mese").equalTo(mese)
         filtroPerSelezione(filterMeseIncomeQuery)
         filtroPerSelezione(filterMeseExpenseQuery)
+        calcolaEntrateQueryConFiltro(filterMeseIncomeQuery)
+        calcolaUsciteQueryConFiltro(filterMeseExpenseQuery)
 
     }
     private fun filtraPerAnno(anno: String) {
@@ -159,6 +163,8 @@ class StatisticFragment : Fragment() {
         val filterAnnoExpenseQuery = expenseDatabase.orderByChild("anno").equalTo(anno)
         filtroPerSelezione(filterAnnoIncomeQuery)
         filtroPerSelezione(filterAnnoExpenseQuery)
+        calcolaEntrateQueryConFiltro(filterAnnoIncomeQuery)
+        calcolaUsciteQueryConFiltro(filterAnnoExpenseQuery)
     }
 
     private fun filtraPerTipologia(tipologia: String) {
@@ -202,6 +208,9 @@ class StatisticFragment : Fragment() {
         }
         recyclerExpense.adapter = expenseAdapter
         expenseAdapter.startListening()
+
+        calcolaEntrateQueryConFiltro(filteredIncomeQuery)
+        calcolaUsciteQueryConFiltro(filteredExpenseQuery)
     }
 
 
@@ -319,6 +328,42 @@ class StatisticFragment : Fragment() {
         }
         recyclerExpense.adapter = expenseAdapter
         expenseAdapter.startListening()
+    }
+
+    fun calcolaEntrateQueryConFiltro(query: Query){
+        query.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var sommaTotaleEntrate = 0
+                for (mySnapshot in dataSnapshot.children){
+                    val data = mySnapshot.getValue(Data::class.java)
+                    sommaTotaleEntrate+=data?.amount?:0
+                }
+                val strSommaTot = sommaTotaleEntrate.toString()
+                totalIncomeResult.text = "$strSommaTot.00"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
+    fun calcolaUsciteQueryConFiltro(query: Query){
+        query.addValueEventListener(object : ValueEventListener{
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var sommaTotaleUScite = 0
+                for (mySnapshot in dataSnapshot.children){
+                    val data = mySnapshot.getValue(Data::class.java)
+                    sommaTotaleUScite+=data?.amount?:0
+                }
+                val strSommaTot = sommaTotaleUScite.toString()
+                totalExpenseResult.text="$strSommaTot.00"
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     inner class IncomeViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
