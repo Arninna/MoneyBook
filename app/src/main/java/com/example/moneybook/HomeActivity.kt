@@ -39,7 +39,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         val toolbar: Toolbar = findViewById(R.id.my_toolbar)
-        toolbar.setTitle("Expense Manager")
+        toolbar.setTitle("Money Book")
         setSupportActionBar(toolbar)
 
         //Prendo sessione attiva dell'utente loggato

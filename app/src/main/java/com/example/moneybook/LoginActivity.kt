@@ -71,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    // per test: mail account gioco, password: prova1234
+    // per test. MAIL: prova@gmail.com, PASSWORD: prova1234
     fun login(){
         val email = binding.emailLogin.text.toString().trim()
         val password = binding.passwordLogin.text.toString().trim()
